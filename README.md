@@ -23,6 +23,6 @@ Matheus Figueiredo
 
 << Diagrama de Classes - Sprint 2 >> 
 
-<img width="1551" height="672" alt="image" src="https://github.com/user-attachments/assets/12e5ab5b-3468-4c33-8119-240eb2062a6e" />
+<img width="958" height="737" alt="image" src="https://github.com/user-attachments/assets/62b2cbb9-2a22-4032-87f8-e7b225472920" />
 
 
