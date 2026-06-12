@@ -12,6 +12,7 @@ public class Aluguel {
 
     private LocalDate dataEntrada;
     private LocalDate dataSaida;
+    private boolean cancelado = false;
 
     @ManyToOne
     private Cliente cliente;
@@ -20,11 +21,51 @@ public class Aluguel {
     private Quarto quarto;
 
     public double calcularValorTotal() {
-
         long dias = dataSaida.toEpochDay() - dataEntrada.toEpochDay();
-
         return dias * quarto.calcularDiaria();
     }
 
-    // getters e setters
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDate getDataEntrada() {
+        return dataEntrada;
+    }
+
+    public void setDataEntrada(LocalDate dataEntrada) {
+        this.dataEntrada = dataEntrada;
+    }
+
+    public LocalDate getDataSaida() {
+        return dataSaida;
+    }
+
+    public void setDataSaida(LocalDate dataSaida) {
+        this.dataSaida = dataSaida;
+    }
+
+    public boolean isCancelado() {
+        return cancelado;
+    }
+
+    public void setCancelado(boolean cancelado) {
+        this.cancelado = cancelado;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Quarto getQuarto() {
+        return quarto;
+    }
+
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
+    }
 }

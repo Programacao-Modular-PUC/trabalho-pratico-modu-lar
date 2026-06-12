@@ -25,4 +25,10 @@ Matheus Figueiredo
 
 <img width="958" height="737" alt="image" src="https://github.com/user-attachments/assets/62b2cbb9-2a22-4032-87f8-e7b225472920" />
 
+## Novos Requisitos Implementados
+
+- Filtro por tipo de quarto: `GET /quartos?tipo=INDIVIDUAL`, `DUPLO`, `FAMILIA`
+- Cancelamento de aluguel: `PATCH /alugueis/{id}/cancelar`
+- Histórico por cliente: `GET /alugueis/cliente/{clienteId}`
+
 
