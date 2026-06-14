@@ -13,6 +13,10 @@ public class QuartoDuplo extends Quarto {
 
         double total = valorBase;
 
+        if (tipoCama == null || tipoCama.isBlank()) {
+            throw new IllegalArgumentException("Tipo de cama deve ser informado");
+        }
+
         if (tipoCama.equalsIgnoreCase("casal")) {
             total += 80;
         }
@@ -30,5 +34,24 @@ public class QuartoDuplo extends Quarto {
         return total;
     }
 
-    // getters e setters
+    @Override
+    public int getLimiteHospedes() {
+        return 2;
+    }
+
+    public String getTipoCama() {
+        return tipoCama;
+    }
+
+    public void setTipoCama(String tipoCama) {
+        this.tipoCama = tipoCama;
+    }
+
+    public boolean isPossuiBerco() {
+        return possuiBerco;
+    }
+
+    public void setPossuiBerco(boolean possuiBerco) {
+        this.possuiBerco = possuiBerco;
+    }
 }

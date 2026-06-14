@@ -24,5 +24,24 @@ public class QuartoFamilia extends Quarto {
         return total;
     }
 
-    // getters e setters
+    @Override
+    public int getLimiteHospedes() {
+        return quantidadeHospedes;
+    }
+
+    public int getQuantidadeHospedes() {
+        return quantidadeHospedes;
+    }
+
+    public void setQuantidadeHospedes(int quantidadeHospedes) {
+        this.quantidadeHospedes = quantidadeHospedes;
+    }
+
+    public int getQuantidadeAmbientes() {
+        return quantidadeAmbientes;
+    }
+
+    public void setQuantidadeAmbientes(int quantidadeAmbientes) {
+        this.quantidadeAmbientes = quantidadeAmbientes;
+    }
 }

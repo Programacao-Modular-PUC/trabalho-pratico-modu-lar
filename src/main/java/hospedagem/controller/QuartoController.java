@@ -41,6 +41,7 @@ public class QuartoController {
 
     @PostMapping
     public Quarto salvar(@RequestBody Quarto quarto) {
+        quarto.validarRecursosPermitidos();
         return repository.save(quarto);
     }
 

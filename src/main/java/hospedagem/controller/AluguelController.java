@@ -31,6 +31,7 @@ public class AluguelController {
 
     @PostMapping
     public Aluguel salvar(@RequestBody Aluguel aluguel) {
+        aluguel.validarDisponibilidade(repository.findAll());
         return repository.save(aluguel);
     }
 

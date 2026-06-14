@@ -1,6 +1,6 @@
 package hospedagem.model;
 
-import hospedagem.model.TipoQuarto;
+import hospedagem.exception.CapacidadeExcedidaException;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,6 +19,21 @@ public abstract class Quarto {
     private TipoQuarto tipo;
 
     public abstract double calcularDiaria();
+
+    public abstract int getLimiteHospedes();
+
+    public void validarCapacidade(int quantidadeHospedes) {
+        if (quantidadeHospedes <= 0) {
+            throw new IllegalArgumentException("A quantidade de hospedes deve ser maior que zero");
+        }
+
+        if (quantidadeHospedes > getLimiteHospedes()) {
+            throw new CapacidadeExcedidaException("Capacidade do quarto excedida");
+        }
+    }
+
+    public void validarRecursosPermitidos() {
+    }
 
     public Long getId() {
         return id;

@@ -1,7 +1,11 @@
 package hospedagem.model;
 
+import hospedagem.exception.DataInvalidaException;
+import hospedagem.exception.QuartoIndisponivelException;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Aluguel {
@@ -21,8 +25,53 @@ public class Aluguel {
     private Quarto quarto;
 
     public double calcularValorTotal() {
+        validarDatas();
         long dias = dataSaida.toEpochDay() - dataEntrada.toEpochDay();
         return dias * quarto.calcularDiaria();
+    }
+
+    public void validarDatas() {
+        if (dataEntrada == null || dataSaida == null) {
+            throw new DataInvalidaException("Data de entrada e data de saida devem ser informadas");
+        }
+
+        if (!dataSaida.isAfter(dataEntrada)) {
+            throw new DataInvalidaException("Data de saida deve ser posterior a data de entrada");
+        }
+    }
+
+    public void validarDisponibilidade(List<Aluguel> alugueisExistentes) {
+        validarDatas();
+
+        if (quarto == null || alugueisExistentes == null) {
+            return;
+        }
+
+        boolean quartoOcupado = alugueisExistentes.stream()
+                .filter(aluguel -> !aluguel.isCancelado())
+                .filter(aluguel -> mesmoQuarto(aluguel.getQuarto()))
+                .anyMatch(this::datasSobrepostas);
+
+        if (quartoOcupado) {
+            throw new QuartoIndisponivelException("Quarto indisponivel para o periodo informado");
+        }
+    }
+
+    private boolean mesmoQuarto(Quarto outroQuarto) {
+        if (outroQuarto == null) {
+            return false;
+        }
+
+        if (quarto.getId() != null && outroQuarto.getId() != null) {
+            return Objects.equals(quarto.getId(), outroQuarto.getId());
+        }
+
+        return quarto == outroQuarto;
+    }
+
+    private boolean datasSobrepostas(Aluguel aluguelExistente) {
+        return dataEntrada.isBefore(aluguelExistente.getDataSaida())
+                && dataSaida.isAfter(aluguelExistente.getDataEntrada());
     }
 
     public Long getId() {

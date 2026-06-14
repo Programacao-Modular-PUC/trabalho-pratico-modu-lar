@@ -1,5 +1,6 @@
 package hospedagem.model;
 
+import hospedagem.exception.RecursoNaoPermitidoException;
 import jakarta.persistence.Entity;
 
 @Entity
@@ -22,5 +23,17 @@ public class QuartoIndividual extends Quarto {
         return quantidadeCamasSolteiro;
     }
 
-    // getters e setters
+    public int getQuantidadeCamasSolteiro() {
+        return quantidadeCamasSolteiro;
+    }
+
+    public void setQuantidadeCamasSolteiro(int quantidadeCamasSolteiro) {
+        this.quantidadeCamasSolteiro = quantidadeCamasSolteiro;
+    }
+
+    public void solicitarBerco(boolean possuiBerco) {
+        if (possuiBerco) {
+            throw new RecursoNaoPermitidoException("Berco nao permitido em quarto individual");
+        }
+    }
 }

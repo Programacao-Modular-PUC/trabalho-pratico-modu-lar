@@ -1,9 +1,14 @@
 package hospedagem.model;
 
+import hospedagem.exception.CapacidadeExcedidaException;
+import hospedagem.exception.DataInvalidaException;
+import hospedagem.exception.QuartoIndisponivelException;
+import hospedagem.exception.RecursoNaoPermitidoException;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -89,5 +94,47 @@ public class AluguelTest {
         boolean conflito = novaEntrada.isBefore(existente.getDataSaida()) && novaSaida.isAfter(existente.getDataEntrada());
 
         assertTrue(conflito, "Deveria detectar conflito de datas para disponibilidade");
+    }
+
+    @Test
+    public void validarDisponibilidade_lancaExcecao_quandoQuartoJaEstaAlugado() {
+        QuartoIndividual q = new QuartoIndividual();
+        q.setQuantidadeCamasSolteiro(1);
+
+        Aluguel existente = new Aluguel();
+        existente.setDataEntrada(LocalDate.of(2025, 7, 10));
+        existente.setDataSaida(LocalDate.of(2025, 7, 15));
+        existente.setQuarto(q);
+
+        Aluguel novoAluguel = new Aluguel();
+        novoAluguel.setDataEntrada(LocalDate.of(2025, 7, 14));
+        novoAluguel.setDataSaida(LocalDate.of(2025, 7, 18));
+        novoAluguel.setQuarto(q);
+
+        assertThrows(QuartoIndisponivelException.class,
+                () -> novoAluguel.validarDisponibilidade(List.of(existente)));
+    }
+
+    @Test
+    public void validarCapacidade_lancaExcecao_quandoQuantidadeHospedesPassaDoLimite() {
+        QuartoDuplo q = new QuartoDuplo();
+
+        assertThrows(CapacidadeExcedidaException.class, () -> q.validarCapacidade(3));
+    }
+
+    @Test
+    public void validarDatas_lancaExcecao_quandoSaidaNaoForPosteriorAEntrada() {
+        Aluguel aluguel = new Aluguel();
+        aluguel.setDataEntrada(LocalDate.of(2025, 8, 10));
+        aluguel.setDataSaida(LocalDate.of(2025, 8, 10));
+
+        assertThrows(DataInvalidaException.class, aluguel::validarDatas);
+    }
+
+    @Test
+    public void solicitarBerco_lancaExcecao_paraQuartoIndividual() {
+        QuartoIndividual q = new QuartoIndividual();
+
+        assertThrows(RecursoNaoPermitidoException.class, () -> q.solicitarBerco(true));
     }
 }
