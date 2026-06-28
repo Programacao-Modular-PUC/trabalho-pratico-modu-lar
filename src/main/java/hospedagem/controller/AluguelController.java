@@ -1,6 +1,8 @@
 package hospedagem.controller;
 
 import hospedagem.model.Aluguel;
+import hospedagem.notificacao.EventoNotificacao;
+import hospedagem.notificacao.GerenciadorNotificacoes;
 import hospedagem.repository.AluguelRepository;
 
 import org.springframework.http.HttpStatus;
@@ -32,7 +34,13 @@ public class AluguelController {
     @PostMapping
     public Aluguel salvar(@RequestBody Aluguel aluguel) {
         aluguel.validarDisponibilidade(repository.findAll());
-        return repository.save(aluguel);
+        Aluguel salvo = repository.save(aluguel);
+        GerenciadorNotificacoes.getInstance().notificar(
+                EventoNotificacao.RESERVA_CRIADA,
+                "cliente",
+                "Reserva criada com sucesso"
+        );
+        return salvo;
     }
 
     @PatchMapping("/{id}/cancelar")
@@ -45,6 +53,12 @@ public class AluguelController {
         }
 
         aluguel.setCancelado(true);
-        return repository.save(aluguel);
+        Aluguel salvo = repository.save(aluguel);
+        GerenciadorNotificacoes.getInstance().notificar(
+                EventoNotificacao.RESERVA_CANCELADA,
+                "cliente",
+                "Reserva cancelada com sucesso"
+        );
+        return salvo;
     }
 }

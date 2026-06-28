@@ -2,6 +2,7 @@ package hospedagem.model;
 
 import hospedagem.exception.DataInvalidaException;
 import hospedagem.exception.QuartoIndisponivelException;
+import hospedagem.tarifa.GerenciadorTarifas;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -27,7 +28,8 @@ public class Aluguel {
     public double calcularValorTotal() {
         validarDatas();
         long dias = dataSaida.toEpochDay() - dataEntrada.toEpochDay();
-        return dias * quarto.calcularDiaria();
+        double valorBase = dias * quarto.calcularDiaria();
+        return GerenciadorTarifas.getInstance().calcular(valorBase, this);
     }
 
     public void validarDatas() {
