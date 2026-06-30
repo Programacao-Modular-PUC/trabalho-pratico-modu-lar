@@ -31,4 +31,10 @@ Matheus Figueiredo
 - Cancelamento de aluguel: `PATCH /alugueis/{id}/cancelar`
 - Histórico por cliente: `GET /alugueis/cliente/{clienteId}`
 
+<< DIAGRAMA DE CLASSES ATUALIZADO COM FOCO NOS PADRÕES DE PROJETO >> 
+
+
+<img width="1536" height="1024" alt="ChatGPT Image 30 de jun  de 2026, 13_43_44" src="https://github.com/user-attachments/assets/0efd5d7a-629c-4c77-8ffc-05ba0c616085" />
+
+
 
